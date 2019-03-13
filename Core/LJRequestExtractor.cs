@@ -5,7 +5,7 @@ using DotnetSpider.Core.Processor;
 using DotnetSpider.Downloader;
 using DotnetSpider.Extraction;
 
-namespace LJSpider.Core
+namespace Rowlet.Core
 {
     internal class LJRequestExtractor : IRequestExtractor
     {

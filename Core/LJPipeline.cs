@@ -9,7 +9,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace LJSpider.Core
+namespace Rowlet.Core
 {
     internal class LJPipeline : IPipeline
     {

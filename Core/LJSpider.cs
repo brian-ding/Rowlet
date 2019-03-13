@@ -10,7 +10,7 @@ using DotnetSpider.Extraction.Model;
 using DotnetSpider.Extraction.Model.Attribute;
 using DotnetSpider.Extraction.Model.Formatter;
 
-namespace LJSpider.Core
+namespace Rowlet.Core
 {
     internal class LJSpider : DotnetSpider.Extension.EntitySpider
     {

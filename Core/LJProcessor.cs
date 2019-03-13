@@ -4,7 +4,7 @@ using DotnetSpider.Core.Processor;
 using DotnetSpider.Downloader;
 using Microsoft.Extensions.Logging;
 
-namespace LJSpider.Core
+namespace Rowlet.Core
 {
     internal class LJProcessor : IPageProcessor
     {
