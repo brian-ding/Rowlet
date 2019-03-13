@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Security.Policy;
 using DotnetSpider.Core;
-using LJSpider.Core;
+using Rowlet.Core;
 
-namespace LJSpider
+namespace Rowlet
 {
     class Program
     {
