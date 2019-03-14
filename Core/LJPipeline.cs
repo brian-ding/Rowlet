@@ -20,12 +20,6 @@ namespace Rowlet.Core
 
         }
 
-        /// <summary>
-        /// 打印爬虫实体解析器解析到的实体数据结果到控制台
-        /// </summary>
-        /// <param name="items">实体类数据</param>
-        /// <param name="sender">调用方</param>
-        /// <returns>最终影响结果数量(如数据库影响行数)</returns>
         public void Process(IList<ResultItems> resultItems, dynamic sender = null)
         {
             if (resultItems == null)
@@ -81,7 +75,7 @@ namespace Rowlet.Core
 
         private void SaveDealInfo(DealInfoEntity entity)
         {
-            Console.WriteLine(entity.Price.ToString());
+            Console.WriteLine(entity.DealPrice.ToString());
         }
     }
 }
