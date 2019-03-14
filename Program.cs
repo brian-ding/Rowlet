@@ -11,14 +11,16 @@ namespace Rowlet
         {
             Console.WriteLine("Hello World!");
 
-            var spider = new LJSpider()
+            using (var spider = new LJSpider()
             {
                 ThreadNum = 1,
                 CycleRetryTimes = 1,
                 SleepTime = 2000,
-                
-            };
-            spider.Run();
+
+            })
+            {
+                spider.Run();
+            }
 
             // Console.Read();
         }
