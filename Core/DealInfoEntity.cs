@@ -78,6 +78,7 @@ namespace Rowlet.Core
         public double InArea { get; set; }
 
         [Field(Expression = ".//div[@class='introContent']/div[@class='base']/div[@class='content']/ul/li[7]/text()")]
+        [ReplaceFormatter(NewValue = "", OldValue = " ")]
         public string Direction { get; set; }
 
         [Field(Expression = ".//div[@class='introContent']/div[@class='base']/div[@class='content']/ul/li[8]/text()")]
