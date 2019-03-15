@@ -134,16 +134,10 @@ namespace Rowlet.Core
                         command.Parameters.Add(nameof(DealInfoEntity.Community), SqlDbType.NVarChar).Value = entity.Community;
                         command.ExecuteNonQuery();
 
-                        using (SqlConnection indexConn = new SqlConnection(@"Server=CNPC0Z76R8\SQLEXPRESS;Database=LJDT;Trusted_Connection=True;ConnectRetryCount=0"))
+                        string indexCmdText = $"update dbo.DealIndex set Scrapped = 1 where ID = {entity.ID}";
+                        using (SqlCommand indexCommand = new SqlCommand(indexCmdText, connection))
                         {
-                            indexConn.Open();
-
-                            string indexCmdText = $"update dbo.DealIndex set Scrapped = 1 where ID = {entity.ID}";
-
-                            using (SqlCommand indexCommand = new SqlCommand(indexCmdText, indexConn))
-                            {
-                                indexCommand.ExecuteNonQuery();
-                            }
+                            indexCommand.ExecuteNonQuery();
                         }
                     }
                 }
