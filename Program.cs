@@ -15,17 +15,17 @@ namespace Rowlet
         {
             Console.WriteLine("Hello World!");
 
-            // using (var spider = new LJSpider()
-            // {
-            //     ThreadNum = 1,
-            //     CycleRetryTimes = 1,
-            //     SleepTime = 2000,
+            using (var spider = new LJSpider()
+            {
+                ThreadNum = 1,
+                CycleRetryTimes = 1,
+                SleepTime = 2000,
 
-            // })
-            // {
-            //     spider.AddRequest(new Request("https://nj.lianjia.com/chengjiao/pg1/"));
-            //     spider.Run();
-            // }
+            })
+            {
+                spider.AddRequest(new Request("https://nj.lianjia.com/chengjiao/pg1/"));
+                spider.Run();
+            }
 
             var deals = GetDeals();
 
@@ -52,7 +52,7 @@ namespace Rowlet
                 {
                     connection.Open();
 
-                    string cmdText = $"select id from dbo.DealIndex";
+                    string cmdText = $"select id from dbo.DealIndex where Scrapped = 0";
 
                     using (SqlCommand command = new SqlCommand(cmdText, connection))
                     {
