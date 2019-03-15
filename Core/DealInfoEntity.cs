@@ -21,13 +21,13 @@ namespace Rowlet.Core
         public string ID { get; set; }
 
         [Field(Expression = ".//span[@class='dealTotalPrice']/i")]
-        public int DealPrice { get; set; }
+        public double DealPrice { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='msg']/span[1]/label")]
-        public int InitPrice { get; set; }
+        public double InitPrice { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='price']/b")]
-        public int UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='msg']/span[2]/label")]
         public int DealPeriod { get; set; }
