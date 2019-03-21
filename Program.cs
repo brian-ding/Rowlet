@@ -15,29 +15,31 @@ namespace Rowlet
         {
             Console.WriteLine("Hello World!");
 
-            // using (var spider = new LJSpider()
-            // {
-            //     ThreadNum = 1,
-            //     CycleRetryTimes = 1,
-            //     SleepTime = 2000,
-
-            // })
-            // {
-            //     spider.AddRequest(new Request("https://nj.lianjia.com/chengjiao/pg1/"));
-            //     spider.Run();
-            // }
-
-            var deals = GetDeals();
-
-            foreach (var id in deals)
+            using (var spider = new LJSpider()
             {
-                using (var spider = new LJSpider().AddRequest(new Request($"https://nj.lianjia.com/chengjiao/{id}.html")))
+                ThreadNum = 1,
+                CycleRetryTimes = 1,
+                SleepTime = 2000,
+
+            })
+            {
+                spider.AddRequest(new Request("https://nj.lianjia.com/chengjiao/pg1/"));
+                spider.Run();
+            }
+
+            string[] deals = GetDeals().ToArray();
+
+            for (int i = 0; i < deals.Length; i++)
+            {
+                using (var spider = new LJSpider().AddRequest(new Request($"https://nj.lianjia.com/chengjiao/{deals[i]}.html")))
                 {
                     spider.Run();
                 }
 
                 Thread.Sleep(2000);
-                Console.WriteLine(id + " finished!");
+                Console.WriteLine(deals[i] + " finished!");
+                Console.WriteLine(deals.Length - i - 1 + " to go!");
+                Console.WriteLine();
             }
 
             // Console.Read();
@@ -52,7 +54,7 @@ namespace Rowlet
                 {
                     connection.Open();
 
-                    string cmdText = $"select id from dbo.DealIndex";
+                    string cmdText = $"select id from dbo.DealIndex where Scrapped = 0";
 
                     using (SqlCommand command = new SqlCommand(cmdText, connection))
                     {

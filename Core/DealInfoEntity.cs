@@ -21,27 +21,32 @@ namespace Rowlet.Core
         public string ID { get; set; }
 
         [Field(Expression = ".//span[@class='dealTotalPrice']/i")]
-        public int DealPrice { get; set; }
+        public double DealPrice { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='msg']/span[1]/label")]
-        public int InitPrice { get; set; }
+        public double InitPrice { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='price']/b")]
-        public int UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='msg']/span[2]/label")]
+        [ReplaceFormatter(NewValue = "0", OldValue = "暂无数据")]
         public int DealPeriod { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='msg']/span[3]/label")]
+        [ReplaceFormatter(NewValue = "0", OldValue = "暂无数据")]
         public int PriceChange { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='msg']/span[4]/label")]
+        [ReplaceFormatter(NewValue = "0", OldValue = "暂无数据")]
         public int Visitor { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='msg']/span[5]/label")]
+        [ReplaceFormatter(NewValue = "0", OldValue = "暂无数据")]
         public int Starer { get; set; }
 
         [Field(Expression = ".//div[@class='info fr']/div[@class='msg']/span[6]/label")]
+        [ReplaceFormatter(NewValue = "0", OldValue = "暂无数据")]
         public int WebViewer { get; set; }
 
         [Field(Expression = ".//div[@class='introContent']/div[@class='base']/div[@class='content']/ul/li[1]/text()")]
@@ -73,8 +78,8 @@ namespace Rowlet.Core
         public double OutArea { get; set; }
 
         [Field(Expression = ".//div[@class='introContent']/div[@class='base']/div[@class='content']/ul/li[5]/text()")]
-        [ReplaceFormatter(NewValue = "", OldValue = "㎡")]
         [ReplaceFormatter(NewValue = "0", OldValue = "暂无数据")]
+        [ReplaceFormatter(NewValue = "", OldValue = "㎡")]
         public double InArea { get; set; }
 
         [Field(Expression = ".//div[@class='introContent']/div[@class='base']/div[@class='content']/ul/li[7]/text()")]
@@ -82,12 +87,14 @@ namespace Rowlet.Core
         public string Direction { get; set; }
 
         [Field(Expression = ".//div[@class='introContent']/div[@class='base']/div[@class='content']/ul/li[8]/text()")]
+        [ReplaceFormatter(NewValue = "0", OldValue = "未知")]
         public int Year { get; set; }
 
         [Field(Expression = ".//div[@class='introContent']/div[@class='base']/div[@class='content']/ul/li[9]/text()")]
         public string Decoration { get; set; }
 
         [Field(Expression = ".//div[@class='introContent']/div[@class='base']/div[@class='content']/ul/li[14]/text()")]
+        [ReplaceFormatter(NewValue = "false", OldValue = "暂无数据")]
         [ReplaceFormatter(NewValue = "true", OldValue = "有")]
         [ReplaceFormatter(NewValue = "false", OldValue = "无")]
         public bool HasElevator { get; set; }
