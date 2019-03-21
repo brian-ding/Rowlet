@@ -27,17 +27,19 @@ namespace Rowlet
                 spider.Run();
             }
 
-            var deals = GetDeals();
+            string[] deals = GetDeals().ToArray();
 
-            foreach (var id in deals)
+            for (int i = 0; i < deals.Length; i++)
             {
-                using (var spider = new LJSpider().AddRequest(new Request($"https://nj.lianjia.com/chengjiao/{id}.html")))
+                using (var spider = new LJSpider().AddRequest(new Request($"https://nj.lianjia.com/chengjiao/{deals[i]}.html")))
                 {
                     spider.Run();
                 }
 
                 Thread.Sleep(2000);
-                Console.WriteLine(id + " finished!");
+                Console.WriteLine(deals[i] + " finished!");
+                Console.WriteLine(deals.Length - i - 1 + " to go!");
+                Console.WriteLine();
             }
 
             // Console.Read();
