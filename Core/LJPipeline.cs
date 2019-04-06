@@ -52,7 +52,7 @@ namespace Rowlet.Core
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(@"Server=CNPC0Z76R8\SQLEXPRESS;Database=LJDT;Trusted_Connection=True;ConnectRetryCount=0"))
+                using (SqlConnection connection = new SqlConnection(@"Server=" + ConfigManager.GetConfig("SQLServer") + ";Database=LJDT;Trusted_Connection=True;ConnectRetryCount=0"))
                 {
                     connection.Open();
 
@@ -77,7 +77,7 @@ namespace Rowlet.Core
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(@"Server=CNPC0Z76R8\SQLEXPRESS;Database=LJDT;Trusted_Connection=True;ConnectRetryCount=0"))
+                using (SqlConnection connection = new SqlConnection(@"Server=" + ConfigManager.GetConfig("SQLServer") + ";Database=LJDT;Trusted_Connection=True;ConnectRetryCount=0"))
                 {
                     connection.Open();
 
