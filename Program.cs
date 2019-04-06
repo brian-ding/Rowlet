@@ -36,7 +36,7 @@ namespace Rowlet
                     spider.Run();
                 }
 
-                Thread.Sleep(2000);
+                Thread.Sleep(500);
                 Console.WriteLine(deals[i] + " finished!");
                 Console.WriteLine(deals.Length - i - 1 + " to go!");
                 Console.WriteLine();
@@ -50,7 +50,7 @@ namespace Rowlet
             List<string> deals = new List<string>();
             try
             {
-                using (SqlConnection connection = new SqlConnection(@"Server=CNPC0Z76R8\SQLEXPRESS;Database=LJDT;Trusted_Connection=True;ConnectRetryCount=0"))
+                using (SqlConnection connection = new SqlConnection(@"Server=" + ConfigManager.GetConfig("SQLServer") + ";Database=LJDT;Trusted_Connection=True;ConnectRetryCount=0"))
                 {
                     connection.Open();
 
