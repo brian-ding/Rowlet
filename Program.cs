@@ -19,7 +19,7 @@ namespace Rowlet
             {
                 ThreadNum = 1,
                 CycleRetryTimes = 1,
-                SleepTime = 2000,
+                SleepTime = 1000,
 
             })
             {
@@ -36,7 +36,7 @@ namespace Rowlet
                     spider.Run();
                 }
 
-                Thread.Sleep(500);
+                Thread.Sleep(200);
                 Console.WriteLine(deals[i] + " finished!");
                 Console.WriteLine(deals.Length - i - 1 + " to go!");
                 Console.WriteLine();
@@ -50,7 +50,7 @@ namespace Rowlet
             List<string> deals = new List<string>();
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConfigManager.GetConfig("SQLServer")))
+                using (SqlConnection connection = new SqlConnection(ConfigManager.GetConfig("SQLServer").Replace("{your_username}", ConfigManager.GetConfig("Username")).Replace("{your_password}", ConfigManager.GetConfig("Password"))))
                 {
                     connection.Open();
 

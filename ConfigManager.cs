@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json.Linq;
 
@@ -30,7 +31,7 @@ namespace Rowlet
             }
 
             string value = _manager._config[key].ToString();
-            System.Console.WriteLine($"Get config value: {value}");
+            Debug.WriteLine($"Get config value: {value}");
             return value;
         }
     }

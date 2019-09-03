@@ -52,7 +52,7 @@ namespace Rowlet.Core
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConfigManager.GetConfig("SQLServer")))
+                using (SqlConnection connection = new SqlConnection(ConfigManager.GetConfig("SQLServer").Replace("{your_username}", ConfigManager.GetConfig("Username")).Replace("{your_password}", ConfigManager.GetConfig("Password"))))
                 {
                     connection.Open();
 
@@ -77,7 +77,7 @@ namespace Rowlet.Core
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConfigManager.GetConfig("SQLServer")))
+                using (SqlConnection connection = new SqlConnection(ConfigManager.GetConfig("SQLServer").Replace("{your_username}", ConfigManager.GetConfig("Username")).Replace("{your_password}", ConfigManager.GetConfig("Password"))))
                 {
                     connection.Open();
 
