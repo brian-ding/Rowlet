@@ -50,7 +50,7 @@ namespace Rowlet
             List<string> deals = new List<string>();
             try
             {
-                using (SqlConnection connection = new SqlConnection(@"Server=" + ConfigManager.GetConfig("SQLServer") + ";Database=LJDT;Trusted_Connection=True;ConnectRetryCount=0"))
+                using (SqlConnection connection = new SqlConnection(ConfigManager.GetConfig("SQLServer")))
                 {
                     connection.Open();
 

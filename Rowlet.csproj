@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="config.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotnetSpider.Core" Version="3.0.8" />
     <PackageReference Include="DotnetSpider.Extension" Version="3.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
