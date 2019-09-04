@@ -56,7 +56,7 @@ namespace Rowlet.Core
                 {
                     connection.Open();
 
-                    string cmdText = $"insert into dbo.DealIndex values (@ID, @Title, @Scrapped)";
+                    string cmdText = $"insert into dbo.LJDealIndex values (@ID, @Title, @Scrapped)";
 
                     using (SqlCommand command = new SqlCommand(cmdText, connection))
                     {
@@ -81,7 +81,7 @@ namespace Rowlet.Core
                 {
                     connection.Open();
 
-                    string cmdText = $"insert into dbo.DealInfo values ("
+                    string cmdText = $"insert into dbo.LJDealInfo values ("
                     + $"@{nameof(DealInfoEntity.ID)}, "
                     + $"@{nameof(DealInfoEntity.DealPrice)}, "
                     + $"@{nameof(DealInfoEntity.InitPrice)}, "
@@ -134,7 +134,7 @@ namespace Rowlet.Core
                         command.Parameters.Add(nameof(DealInfoEntity.Community), SqlDbType.NVarChar).Value = entity.Community;
                         command.ExecuteNonQuery();
 
-                        string indexCmdText = $"update dbo.DealIndex set Scrapped = 1 where ID = {entity.ID}";
+                        string indexCmdText = $"update dbo.LJDealIndex set Scrapped = 1 where ID = {entity.ID}";
                         using (SqlCommand indexCommand = new SqlCommand(indexCmdText, connection))
                         {
                             indexCommand.ExecuteNonQuery();

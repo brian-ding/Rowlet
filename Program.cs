@@ -54,7 +54,7 @@ namespace Rowlet
                 {
                     connection.Open();
 
-                    string cmdText = $"select id from dbo.DealIndex where Scrapped = 0";
+                    string cmdText = $"select id from dbo.LJDealIndex where Scrapped = 0";
 
                     using (SqlCommand command = new SqlCommand(cmdText, connection))
                     {
