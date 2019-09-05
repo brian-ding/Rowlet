@@ -40,7 +40,7 @@ namespace Rowlet.Core
                 {
                     connection.Open();
 
-                    string cmdText = $"select id from [dbo].LDDealIndex where id = @id";
+                    string cmdText = $"select id from [dbo].LJDealIndex where id = @id";
 
                     using (SqlCommand command = new SqlCommand(cmdText, connection))
                     {

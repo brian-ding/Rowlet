@@ -54,7 +54,7 @@ namespace Rowlet
                 {
                     connection.Open();
 
-                    string cmdText = $"select id from dbo.LJDealIndex where Scrapped = 0";
+                    string cmdText = $"select id from dbo.LJDealIndex where Scrapped = 0 AND NOT TITLE LIKE '%车位%'";
 
                     using (SqlCommand command = new SqlCommand(cmdText, connection))
                     {
