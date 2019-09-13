@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Rowlet.Core;
+using Rowlet.Spiders;
 using Serilog;
 using Serilog.Events;
 using System;
@@ -98,12 +99,12 @@ namespace Rowlet
                     });
                 });
             hostBuilder.Register<EntitySpider>();
-            hostBuilder.Register<LJSpider>();
+            hostBuilder.Register<IndexSpider>();
             var host = hostBuilder.Build();
 
             host.Start();
 
-            var spider1 = host.Create<LJSpider>();
+            var spider1 = host.Create<IndexSpider>();
             Task task = spider1.RunAsync();
             task.ContinueWith((t) =>
             {

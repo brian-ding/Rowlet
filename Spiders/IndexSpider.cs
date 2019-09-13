@@ -1,10 +1,12 @@
 ﻿using DotnetSpider;
 using DotnetSpider.Common;
+using DotnetSpider.DataFlow.Parser;
 using DotnetSpider.Downloader;
 using DotnetSpider.EventBus;
 using DotnetSpider.Scheduler;
 using DotnetSpider.Statistics;
 using Microsoft.Extensions.Logging;
+using Rowlet.Dataflows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,8 @@ namespace Rowlet.Spiders
             AddRequests(new Request("https://nj.lianjia.com/chengjiao/pg1/"));
 
             //AddDataFlow()
+            AddDataFlow(new DataParser<IndexEntity>())
+                .AddDataFlow(new IndexDataFlow());
 
             base.Initialize();
         }
