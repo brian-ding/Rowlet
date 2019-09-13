@@ -27,8 +27,10 @@ namespace Rowlet.Core
 
         protected override void Initialize()
         {
-
-            AddRequests(new Request("https://news.cnblogs.com/n/page/1/", new Dictionary<string, string> { { "ÍøÕ¾", "²©¿ÍÔ°" } }));
+            NewGuidId();
+            Name = Id;
+            AddDataFlow(new DataFlow1());
+            AddRequests(new Request("https://nj.lianjia.com/chengjiao/pg1/", new Dictionary<string, string> { { "ÍøÕ¾", "²©¿ÍÔ°" } }) { DownloaderType = DownloaderType.HttpClient });
         }
 
         //protected override void OnInit(params string[] arguments)
@@ -53,6 +55,7 @@ namespace Rowlet.Core
         protected override void Initialize()
         {
             NewGuidId();
+            Name = Id;
             Scheduler = new QueueDistinctBfsScheduler();
             Speed = 1;
             Depth = 3;

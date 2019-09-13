@@ -1,8 +1,17 @@
 ﻿using DotnetSpider;
+using DotnetSpider.Common;
+using DotnetSpider.DownloadAgent;
+using DotnetSpider.Statistics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Rowlet.Core;
 using Serilog;
 using Serilog.Events;
 using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Rowlet
 {
@@ -12,19 +21,9 @@ namespace Rowlet
         {
             Console.WriteLine("Hello World!");
 
-            var configure = new LoggerConfiguration()
-#if DEBUG
-                .MinimumLevel.Verbose()
-#else
-                .MinimumLevel.Information()
-#endif
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .Enrich.FromLogContext()
-                .WriteTo.Console().WriteTo
-                .RollingFile("dotnet-spider.log");
-            Log.Logger = configure.CreateLogger();
-            
-            Startup.Execute<EntitySpider>(args);
+            StartWithHost(args);
+
+
 
             //using (var spider = new LJSpider()
             //{
@@ -54,6 +53,81 @@ namespace Rowlet
             //}
 
             Console.Read();
+        }
+
+        public static void StartWithHost(string[] args)
+        {
+            var configure = new LoggerConfiguration()
+#if DEBUG
+                            .MinimumLevel.Verbose()
+#else
+                            .MinimumLevel.Information()
+#endif
+                            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.Console().WriteTo
+    .RollingFile("dotnet-spider.log");
+            Log.Logger = configure.CreateLogger();
+
+            var hostBuilder = new SpiderHostBuilder()
+                .ConfigureAppConfiguration(x =>
+                {
+                    if (File.Exists("appsettings.json"))
+                    {
+                        x.AddJsonFile("appsettings.json");
+                    }
+
+                    x.AddCommandLine(args);
+                    //x.AddEnvironmentVariables();
+                })
+                .ConfigureLogging(x => { x.AddSerilog(); })
+                .ConfigureServices((services) =>
+                {
+
+                    services.AddLocalEventBus();
+                    services.AddLocalDownloadCenter();
+                    services.AddDownloaderAgent((x) =>
+                    {
+                        x.UseFileLocker();
+                        x.UseDefaultAdslRedialer();
+                        x.UseDefaultInternetDetector();
+                    });
+                    services.AddStatisticsCenter((x) =>
+                    {
+                        x.UseMemory();
+                    });
+                });
+            hostBuilder.Register<EntitySpider>();
+            hostBuilder.Register<LJSpider>();
+            var host = hostBuilder.Build();
+
+            host.Start();
+
+            var spider1 = host.Create<LJSpider>();
+            Task task = spider1.RunAsync();
+            task.ContinueWith((t) =>
+            {
+                var spider2 = host.Create<EntitySpider>();
+                spider2.RunAsync(args);
+            });
+
+        }
+
+        public static void StartWithoutHost(string[] args)
+        {
+            var configure = new LoggerConfiguration()
+#if DEBUG
+                            .MinimumLevel.Verbose()
+#else
+                            .MinimumLevel.Information()
+#endif
+                            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.Console().WriteTo
+    .RollingFile("dotnet-spider.log");
+            Log.Logger = configure.CreateLogger();
+
+            Startup.Execute<EntitySpider>(args);
         }
 
         public static SpiderHostBuilder CreateHostBuilder()
