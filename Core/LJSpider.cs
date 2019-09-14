@@ -56,13 +56,13 @@ namespace Rowlet.Core
         {
             NewGuidId();
             Name = Id;
-            Scheduler = new QueueDistinctBfsScheduler();
+            Scheduler = new MyScheduler();
             Speed = 1;
-            Depth = 3;
+            //Depth = 3;
             //AddDataFlow(new CnblogsDataParser()).AddDataFlow(GetDefaultStorage());
             AddDataFlow(new MyDataParser<CnblogsEntry>())
                 .AddDataFlow(new DataFlow1())
-                .AddDataFlow(GetDefaultStorage())
+                //.AddDataFlow(GetDefaultStorage())
                 .AddDataFlow(new DataFlow2());
             //AddRequests(new Request("https://www.cnblogs.com/sitehome/p/1", new Dictionary<string, string> { { "ÍøÕ¾", "²©¿ÍÔ°" } }) { DownloaderType = DownloaderType.Test });
             AddRequests(new Request("https://www.cnblogs.com/news/1", new Dictionary<string, string> { { "ÍøÕ¾", "²©¿ÍÔ°" } }) { DownloaderType = DownloaderType.Test });

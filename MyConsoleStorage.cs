@@ -1,11 +1,14 @@
 ﻿using DotnetSpider.Common;
 using DotnetSpider.DataFlow;
 using DotnetSpider.DataFlow.Storage;
+using DotnetSpider.DownloadAgent;
+using DotnetSpider.EventBus;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Rowlet
@@ -36,7 +39,14 @@ namespace Rowlet
 
         public Task<DataFlowResult> HandleAsync(DataFlowContext context)
         {
-            return Task.FromResult(DataFlowResult.Success);
+            IEventBus bus = (IEventBus)context.Services.GetService(typeof(IEventBus));
+            bus.Unsubscribe("DownloadQueue");
+
+            //DownloaderAgentBase agent = (DownloaderAgentBase)context.Services.GetService(typeof(DownloaderAgentBase));
+            //var token = new CancellationToken(true);
+            //await agent.StopAsync(token);
+
+            return Task.FromResult(DataFlowResult.Terminated);
         }
 
         public Task InitAsync()

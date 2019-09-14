@@ -1,6 +1,7 @@
 ﻿using DotnetSpider;
 using DotnetSpider.Common;
 using DotnetSpider.DownloadAgent;
+using DotnetSpider.Scheduler;
 using DotnetSpider.Statistics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -86,6 +87,7 @@ namespace Rowlet
                 {
 
                     services.AddLocalEventBus();
+                    services.AddSingleton<IScheduler>(new MyScheduler());
                     services.AddLocalDownloadCenter();
                     services.AddDownloaderAgent((x) =>
                     {
@@ -99,18 +101,18 @@ namespace Rowlet
                     });
                 });
             hostBuilder.Register<EntitySpider>();
-            hostBuilder.Register<IndexSpider>();
+            //hostBuilder.Register<IndexSpider>();
             var host = hostBuilder.Build();
 
             host.Start();
 
-            var spider1 = host.Create<IndexSpider>();
-            Task task = spider1.RunAsync();
-            task.ContinueWith((t) =>
-            {
-                var spider2 = host.Create<EntitySpider>();
-                spider2.RunAsync(args);
-            });
+            //var spider1 = host.Create<IndexSpider>();
+            //Task task = spider1.RunAsync();
+            //task.ContinueWith((t) =>
+            //{
+            var spider2 = host.Create<EntitySpider>();
+            spider2.RunAsync(args);
+            //});
 
         }
 
