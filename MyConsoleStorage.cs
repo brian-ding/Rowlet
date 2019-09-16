@@ -40,11 +40,7 @@ namespace Rowlet
         public Task<DataFlowResult> HandleAsync(DataFlowContext context)
         {
             IEventBus bus = (IEventBus)context.Services.GetService(typeof(IEventBus));
-            bus.Unsubscribe("DownloadQueue");
-
-            //DownloaderAgentBase agent = (DownloaderAgentBase)context.Services.GetService(typeof(DownloaderAgentBase));
-            //var token = new CancellationToken(true);
-            //await agent.StopAsync(token);
+            bus.Publish(context.Response.Request.OwnerId, new Event() { Type = Framework.ExitCommand });
 
             return Task.FromResult(DataFlowResult.Terminated);
         }

@@ -9,9 +9,7 @@ using Microsoft.Extensions.Logging;
 using Rowlet.Dataflows;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Rowlet.Spiders
 {
@@ -24,7 +22,7 @@ namespace Rowlet.Spiders
         protected override void Initialize()
         {
             NewGuidId();
-            Scheduler = new QueueDistinctBfsScheduler();
+
             Speed = 1;
             // Depth = 3;
 
@@ -32,7 +30,19 @@ namespace Rowlet.Spiders
             AddRequests(new Request("https://nj.lianjia.com/chengjiao/pg1/"));
 
             //AddDataFlow()
-            AddDataFlow(new DataParser<IndexEntity>())
+            AddDataFlow(new DataParser<IndexEntity>()
+            {
+                FollowRequestQuerier = (context) =>
+                {
+                    List<Request> requests = new List<Request>();
+                    int pageNo = int.Parse(Regex.Match(context.Response.Request.Url, @"pg(\d+)/").Groups[1].Value) + 1;
+                    requests.Add(new Request("https://nj.lianjia.com/chengjiao/pg" + pageNo.ToString() + "/") { OwnerId = context.Response.Request.OwnerId });
+
+                    //string href = new Selectable(context.Response.RawText).XPath(".//div[contains(@class, 'house-lst-page-box')]/a[last()]").Links().GetValue();
+
+                    return requests;
+                }
+            })
                 .AddDataFlow(new IndexDataFlow());
 
             base.Initialize();

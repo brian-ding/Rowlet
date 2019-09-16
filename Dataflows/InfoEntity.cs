@@ -107,5 +107,9 @@ namespace Rowlet.Dataflows
         [ValueSelector(Expression = ".//body/div[contains(@class, 'house-title')]/div[@class='wrapper']/text()")]
         [SplitFormatter(Separator = new[] { " " }, ElementAt = 0)]
         public string Community { get; set; }
+
+        public double? Latitude { get; set; }
+
+        public double? Longtitude { get; set; }
     }
 }

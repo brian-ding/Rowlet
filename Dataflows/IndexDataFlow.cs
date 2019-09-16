@@ -9,6 +9,8 @@ using DotnetSpider.DataFlow.Parser;
 using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
+using DotnetSpider.EventBus;
+using DotnetSpider.Common;
 
 namespace Rowlet.Dataflows
 {
@@ -25,13 +27,30 @@ namespace Rowlet.Dataflows
 
         public Task<DataFlowResult> HandleAsync(DataFlowContext context)
         {
+            int result = 0;
+
             IEnumerator enumerator = context.GetParseItem(typeof(IndexEntity).FullName).GetEnumerator();
             while (enumerator.MoveNext())
             {
-                SaveDealIndex((IndexEntity)enumerator.Current);
+                result = SaveDealIndex((IndexEntity)enumerator.Current);
+                if (result == -1)
+                {
+                    break;
+                }
             }
 
-            return Task.FromResult(DataFlowResult.Success);
+            if (result == -1)
+            {
+                IEventBus bus = (IEventBus)context.Services.GetService(typeof(IEventBus));
+                bus.Publish(context.Response.Request.OwnerId, new Event() { Type = Framework.ExitCommand });
+
+                return Task.FromResult(DataFlowResult.Terminated);
+            }
+            else
+            {
+                return Task.FromResult(DataFlowResult.Success);
+            }
+
         }
 
         public Task InitAsync()
@@ -39,8 +58,10 @@ namespace Rowlet.Dataflows
             return Task.CompletedTask;
         }
 
-        private void SaveDealIndex(IndexEntity entity)
+        private int SaveDealIndex(IndexEntity entity)
         {
+            int result = 0;
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(ConfigManager.GetConfig("SQLServer").Replace("{your_username}", ConfigManager.GetConfig("Username")).Replace("{your_password}", ConfigManager.GetConfig("Password"))))
@@ -57,11 +78,15 @@ namespace Rowlet.Dataflows
                         command.ExecuteNonQuery();
                     }
                 }
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR\t" + ex.Message);
+                Logger.LogError(ex.Message);
+                result = -1;
             }
+
+            return result;
         }
 
     }

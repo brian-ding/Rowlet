@@ -12,10 +12,15 @@ namespace Rowlet
     {
         private Queue<Request> _queue = new Queue<Request>();
 
-        public int Total => 15;
+        public int Total => _queue.Count;
 
         public Request[] Dequeue(string ownerId, int count = 1)
         {
+            if (Total < count)
+            {
+                return null;
+            }
+
             Request[] requests = new Request[count];
             for (int i = 0; i < count; i++)
             {
@@ -29,10 +34,11 @@ namespace Rowlet
         {
             foreach (var item in requests)
             {
+                item.ComputeHash();
                 _queue.Enqueue(item);
             }
 
-            return requests.Count();
+            return Total;
         }
     }
 }
